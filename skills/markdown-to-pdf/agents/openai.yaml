@@ -1,0 +1,5 @@
+interface:
+  display_name: "Markdown to PDF"
+  short_description: "Create polished PDFs with Pandoc and Typst"
+  default_prompt: "Convert this Markdown document into a polished PDF."
+
