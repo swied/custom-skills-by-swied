@@ -61,7 +61,11 @@ sudo apt install python3 pandoc
 
 Install Typst through your distribution's package manager when available, or
 use an official binary from the
-[Typst releases](https://github.com/typst/typst/releases) page.
+[Typst releases](https://github.com/typst/typst/releases) page.  For Ubuntu:
+
+```bash
+sudo snap install typst
+```
 
 You can also verify each program individually:
 
