@@ -32,3 +32,13 @@ def greet(name: str) -> str:
     return f"Hello, {name}!"
 ```
 
+## Mermaid DAG
+
+```mermaid
+graph TD
+    A[Start] --> B[Process]
+    A --> C[Validate]
+    B --> D[Finish]
+    C --> D
+```
+
