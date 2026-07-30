@@ -56,22 +56,36 @@ remains independent of any agent harness.
 7. Check the staged patch with `git diff --cached --check`. Stop if the index is
    empty.
 8. Derive the message from the staged diff:
-   - Follow repository-specific conventions when documented or evident from
-     recent commit history.
+   - Follow documented repository-specific conventions. Use recent commit
+     history to infer type, scope, tone, and trailer names, but do not copy
+     subject-only messages when the rules below require a body or footer.
    - Otherwise use Conventional Commits:
      `<type>[(scope)][!]: <imperative summary>`.
    - Use a specific scope only when it adds useful context.
    - Keep the subject concise, omit its trailing period, and describe the
      outcome rather than the editing activity.
-   - Add a body only when the motivation, behavior, or tradeoffs are not clear
-     from the subject. Wrap body lines at roughly 72 characters.
-   - Use `BREAKING CHANGE: ...` or the `!` marker for breaking changes, and add
-     issue footers only when the relationship is known.
+   - For every nontrivial commit, add a body separated from the subject by a
+     blank line. Treat a commit as nontrivial when it changes multiple files or
+     concerns, introduces or changes behavior, alters a workflow or policy, or
+     has motivation or tradeoffs that the subject cannot fully convey. Omit the
+     body only for a truly atomic, self-explanatory change.
+   - Use the body to explain the purpose, resulting behavior, and important
+     related changes. Prefer cohesive prose over a file-by-file inventory, and
+     wrap lines at roughly 72 characters.
+   - Add a footer separated from the body by a blank line when factual,
+     useful metadata is available. Use `BREAKING CHANGE: ...` for breaking
+     behavior; `Fixes`, `Closes`, or `Refs` for known issue relationships; and
+     repository-defined Git trailers for relevant metadata. For example, a
+     skills repository may use `Affected-Skills: git-commit, markdown-to-pdf`.
+     Never invent an issue, breaking change, contributor, or ceremonial footer
+     merely to fill the section.
 9. Create the commit without bypassing hooks. Do not amend, force, disable
    signing, or use `--no-verify` unless the user explicitly requests it.
 10. Verify the result with `git status --short` and
-   `git show --stat --oneline --decorate --no-renames HEAD`. Report the commit
-   identifier, subject, validation performed, and any remaining changes.
+   `git show -s --format=%B HEAD`, then inspect the summary with
+   `git show --stat --oneline --decorate --no-renames HEAD`. Confirm that the
+   subject, required body, and applicable footer were preserved. Report the
+   commit identifier, subject, validation performed, and any remaining changes.
 
 ## Conventional commit types
 

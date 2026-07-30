@@ -1,32 +1,62 @@
 # Portable Agent Skills
 
 A collection of focused, reusable skills built on the open Agent Skills
-`SKILL.md` format. Canonical skill files live under `skills/`; the installers
-copy or link them into the discovery locations used by Codex, Claude Code, Pi,
-and Google Antigravity CLI.
+`SKILL.md` format. Canonical skill sources live under `skills/`; portable
+installers copy or link them into the discovery locations used by Codex,
+Claude Code, Pi, and Google Antigravity CLI.
 
-## Included skills
+## Skills
 
-- [`markdown-to-pdf`](skills/markdown-to-pdf/README.md): Convert Markdown files
-  into polished PDF documents with Pandoc and Typst.
-- [`git-commit`](skills/git-commit/README.md): Stage, review, and commit Git
-  changes with commit-message and sensitive-file checks.
+| Skill | Purpose | Documentation |
+| --- | --- | --- |
+| `git-commit` | Safely stage, validate, and commit a Git working tree with repository-aware messages. | [Usage and behavior](skills/git-commit/README.md) |
+| `markdown-to-pdf` | Convert Markdown into polished PDF documents with Pandoc and Typst. | [Prerequisites and usage](skills/markdown-to-pdf/README.md) |
 
-## Install
+Each skill README contains its prerequisites, invocation examples, and
+skill-specific behavior. The sections below cover installation and repository
+management shared by every skill.
 
-The installers copy skills by default. An installed copy remains usable if this
-repository is later moved or deleted. Replace `SKILL_NAME` below with a name
-from the included-skills list.
+## Quick start
 
-### macOS or Linux
-
-Install a skill for every supported harness:
+Install one skill for every supported harness on macOS or Linux:
 
 ```bash
 ./installers/install.sh all SKILL_NAME
 ```
 
-Install it for one harness:
+On Windows PowerShell:
+
+```powershell
+.\installers\install.ps1 -Harness all -Skill SKILL_NAME
+```
+
+Replace `SKILL_NAME` with `git-commit` or `markdown-to-pdf`. The `all` argument
+means all supported harnesses; it does not mean all skills.
+
+### Install every included skill
+
+On macOS or Linux:
+
+```bash
+for skill in git-commit markdown-to-pdf; do
+  ./installers/install.sh all "$skill"
+done
+```
+
+On Windows PowerShell:
+
+```powershell
+"git-commit", "markdown-to-pdf" | ForEach-Object {
+    .\installers\install.ps1 -Harness all -Skill $_
+}
+```
+
+These commands install every skill currently listed in this repository for
+every supported harness.
+
+### Install for one harness
+
+Replace `all` with a harness name when a skill is needed in only one tool:
 
 ```bash
 ./installers/install.sh codex SKILL_NAME
@@ -35,17 +65,16 @@ Install it for one harness:
 ./installers/install.sh agy SKILL_NAME
 ```
 
-The optional `install` action is equivalent to the shorter form:
+The optional POSIX `install` action is equivalent to the shorter form:
 
 ```bash
 ./installers/install.sh install codex SKILL_NAME
 ```
 
-### Windows PowerShell
+## Manage installations
 
-```powershell
-.\installers\install.ps1 -Harness all -Skill SKILL_NAME
-```
+Installers create independent copies by default, so installed skills keep
+working if this repository is moved or deleted.
 
 ### Update
 
@@ -93,33 +122,21 @@ Pass `--symlink` with a POSIX update, or `-UseSymlink` with PowerShell
 `-Update`, to convert an installer-owned copy to a symlink. Windows may require
 Developer Mode or elevated permissions.
 
-### Discovery locations
+## Supported harnesses
 
-| Harness | Personal/global skill directory |
-| --- | --- |
-| Codex | `~/.agents/skills/` |
-| Claude Code | `~/.claude/skills/` |
-| Pi | `~/.agents/skills/` |
-| Antigravity/AGY | `~/.gemini/config/skills/` |
+| Harness | Installer argument | Explicit invocation | Discovery location |
+| --- | --- | --- | --- |
+| Codex | `codex` | `$SKILL_NAME <request>` | `~/.agents/skills/` |
+| Claude Code | `claude` | `/SKILL_NAME <request>` | `~/.claude/skills/` |
+| Pi | `pi` | `/skill:SKILL_NAME <request>` | `~/.agents/skills/` |
+| Antigravity/AGY | `agy` | Describe the task or use `/skills` | `~/.gemini/config/skills/` |
 
-Codex and Pi intentionally share the same installation.
-
-## Invoke a skill
-
-Harnesses use different explicit-invocation syntax:
-
-```text
-Codex:       $SKILL_NAME <request>
-Claude Code: /SKILL_NAME <request>
-Pi:          /skill:SKILL_NAME <request>
-AGY:         Describe the task or select the skill with /skills.
-```
-
-Harnesses may also select a skill automatically from its description. Each
-skill README contains concrete invocation examples.
+Codex and Pi intentionally share the same installation directory. Harnesses
+may also select a skill automatically from its description.
 
 ## Repository design
 
-Keep each skill under `skills/<skill-name>/` as the single source of truth.
-Add harness-specific installation or packaging logic under `installers/`
-instead of maintaining multiple copies of a skill.
+Keep each skill under `skills/<skill-name>/` as its single source of truth.
+Skill-specific documentation belongs beside that skill; shared installation
+and repository guidance belongs in this README. Add harness-specific packaging
+logic under `installers/` instead of maintaining duplicate skill copies.

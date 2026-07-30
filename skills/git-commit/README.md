@@ -16,6 +16,8 @@ staged patch, follows local commit conventions, and verifies the result.
   artifacts, and suspected secrets before committing.
 - Uses repository-specific commit conventions when available, with
   Conventional Commits as the fallback.
+- Writes an explanatory body for every nontrivial commit and adds factual,
+  useful Git trailers when applicable.
 - Runs relevant validation and Git's whitespace/error check before committing.
 - Does not push, amend, bypass hooks, or change remote state without an explicit
   request.
@@ -85,10 +87,19 @@ the repository has no clear convention, it uses:
 ```text
 <type>[(scope)][!]: <imperative summary>
 
-[optional body]
+<body for every nontrivial commit>
 
-[optional footer]
+<factual footer when applicable>
 ```
+
+A body is required when a commit spans multiple files or concerns, changes
+behavior, alters a workflow or policy, or needs more context than the subject
+can provide. It explains the purpose and resulting behavior as cohesive prose
+rather than listing files. A truly atomic, self-explanatory change may omit it.
+
+Footers remain evidence-based. The skill adds known issue relationships,
+breaking-change notices, or repository-defined Git trailers when useful; it
+does not invent metadata merely to fill the footer.
 
 Examples:
 
@@ -97,12 +108,16 @@ docs(git-commit): clarify staged-change handling
 ```
 
 ```text
-fix(parser): preserve escaped delimiters
+feat(git-commit): add guarded commit workflow
 
-Keep escaped delimiters intact during tokenization so downstream validation
-receives the original value.
+Add a portable commit skill that stages the intended change set, checks for
+potential secrets, validates the staged patch, and verifies the resulting
+commit.
 
-Fixes #42
+Move skill-specific guidance into per-skill READMEs and tighten ignore rules
+for secrets, local tooling, and generated artifacts.
+
+Affected-Skills: git-commit, markdown-to-pdf
 ```
 
 Supported fallback types are `feat`, `fix`, `docs`, `refactor`, `perf`, `test`,
