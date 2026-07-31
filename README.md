@@ -27,6 +27,7 @@ small installation layer handles the harness-specific differences.
 | --- | --- | --- |
 | **swied-git-commit** | Reviews, stages, validates, and commits a Git working tree with a repository-aware message. | [Git Commit guide](skills/swied-git-commit/README.md) |
 | **swied-markdown-to-pdf** | Turns Markdown into a polished PDF using Pandoc and Typst. | [Markdown to PDF guide](skills/swied-markdown-to-pdf/README.md) |
+| **swied-resume-consultant** | Runs Dr. Bailey's probing, research-backed career interview and creates a career profile, strategy report, and targeted resume. | [Resume Consultant skill](skills/swied-resume-consultant/SKILL.md) |
 
 Each skill has its own guide with requirements, examples, and detailed
 behavior. This README covers the shared install, test, update, and uninstall
@@ -114,13 +115,14 @@ The same examples in Windows PowerShell are:
 Tip: start with one harness and one skill. You can add other combinations at
 any time.
 
-### Install both skills
+### Install multiple skills
 
 There is one install command per skill. For Codex:
 
 ~~~bash
 bash installers/install.sh codex swied-git-commit
 bash installers/install.sh codex swied-markdown-to-pdf
+bash installers/install.sh codex swied-resume-consultant
 ~~~
 
 On Windows PowerShell:
@@ -128,6 +130,7 @@ On Windows PowerShell:
 ~~~powershell
 .\installers\install.ps1 -Harness codex -Skill swied-git-commit
 .\installers\install.ps1 -Harness codex -Skill swied-markdown-to-pdf
+.\installers\install.ps1 -Harness codex -Skill swied-resume-consultant
 ~~~
 
 ### Install for every supported harness
@@ -185,6 +188,10 @@ Convert docs/project-plan.md to a polished PDF with a table of contents.
 
 ~~~text
 Turn meeting-notes.md into meeting-notes.pdf and inspect the result.
+~~~
+
+~~~text
+Use Dr. Bailey to help me understand what I want from my next career move.
 ~~~
 
 If your harness does not select the skill automatically, use its skill picker

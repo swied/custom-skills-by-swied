@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dr. Bailey Resume Consultant"
+  short_description: "Explore career goals and build a tailored resume"
+  default_prompt: "Use $swied-resume-consultant to let Dr. Bailey interview me about my career goals and build a focused resume."
