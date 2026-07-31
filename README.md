@@ -2,8 +2,8 @@
 
 A collection of focused, reusable skills built on the open Agent Skills
 `SKILL.md` format. Canonical skill sources live under `skills/`; portable
-installers copy or link them into the discovery locations used by Codex,
-Claude Code, Pi, and Google Antigravity CLI.
+installers copy or link them into discovery locations used by more than twenty
+popular CLI harness names.
 
 ## Skills
 
@@ -18,22 +18,7 @@ management shared by every skill.
 
 ## Quick start
 
-Install one skill for every supported harness on macOS or Linux:
-
-```bash
-./installers/install.sh all SKILL_NAME
-```
-
-On Windows PowerShell:
-
-```powershell
-.\installers\install.ps1 -Harness all -Skill SKILL_NAME
-```
-
-Replace `SKILL_NAME` with `swied-git-commit` or `swied-markdown-to-pdf`. The `all` argument
-means all supported harnesses; it does not mean all skills.
-
-### Install every included skill
+Install all skills for every supported harness.
 
 On macOS or Linux:
 
@@ -54,21 +39,26 @@ On Windows PowerShell:
 These commands install every skill currently listed in this repository for
 every supported harness.
 
-### Install for one harness
+### Install a single skill for one harness
 
-Replace `all` with a harness name when a skill is needed in only one tool:
+Replace `all` with a harness name or destination group when a skill is needed
+in only one discovery location. List accepted values with
+`./installers/install.sh list`.
 
 ```bash
-./installers/install.sh codex SKILL_NAME
+./installers/install.sh agents SKILL_NAME  # shared cross-harness location
 ./installers/install.sh claude SKILL_NAME
-./installers/install.sh pi SKILL_NAME
+./installers/install.sh amp SKILL_NAME
+./installers/install.sh qwen SKILL_NAME
+./installers/install.sh kiro SKILL_NAME
+./installers/install.sh factory SKILL_NAME
 ./installers/install.sh agy SKILL_NAME
 ```
 
 The optional POSIX `install` action is equivalent to the shorter form:
 
 ```bash
-./installers/install.sh install codex SKILL_NAME
+./installers/install.sh install HARNESS SKILL_NAME
 ```
 
 ## Manage installations
@@ -102,8 +92,10 @@ inside an installed copy, so make source changes under `skills/`.
 .\installers\install.ps1 -Harness all -Skill SKILL_NAME -Uninstall
 ```
 
-Use a single harness instead of `all` to remove only that installation.
-Uninstall is idempotent and refuses to delete paths not owned by the installer.
+Use a single harness instead of `all` to remove only its destination. Harnesses
+in the same group share a destination, so uninstalling through one alias removes
+the skill for every harness in that group. Uninstall is idempotent and refuses
+to delete paths not owned by the installer.
 
 ### Development symlinks
 
@@ -124,19 +116,67 @@ Developer Mode or elevated permissions.
 
 ## Supported harnesses
 
-| Harness | Installer argument | Explicit invocation | Discovery location |
-| --- | --- | --- | --- |
-| Codex | `codex` | `$SKILL_NAME <request>` | `~/.agents/skills/` |
-| Claude Code | `claude` | `/SKILL_NAME <request>` | `~/.claude/skills/` |
-| Pi | `pi` | `/skill:SKILL_NAME <request>` | `~/.agents/skills/` |
-| Antigravity/AGY | `agy` | Describe the task or use `/skills` | `~/.gemini/config/skills/` |
+Harness aliases are grouped by physical discovery location. Installing once for a
+group makes the skill available to every harness in that row.
 
-Codex and Pi intentionally share the same installation directory. Harnesses
-may also select a skill automatically from its description.
+| Group | Harness arguments | Discovery location |
+| --- | --- | --- |
+| `agents` | `codex`, `pi`, `opencode`, `goose`, `copilot`, `github-copilot`, `openhands`, `cursor`, `cursor-cli`, `gemini`, `gemini-cli`, `kimi`, `kimi-code` | `~/.agents/skills/` |
+| `claude` | `claude`, `claude-code` | `~/.claude/skills/` |
+| `antigravity` | `agy`, `antigravity` | `~/.gemini/config/skills/` |
+| `amp` | `amp` | `~/.config/agents/skills/` |
+| `qwen` | `qwen`, `qwen-code` | `~/.qwen/skills/` |
+| `kilo` | `kilo`, `kilo-cli` | `~/.kilo/skills/` |
+| `kiro` | `kiro`, `kiro-cli` | `~/.kiro/skills/` |
+| `factory` | `droid`, `factory`, `factory-droid` | `~/.factory/skills/` |
+
+Harnesses may select a skill automatically from its description. Their manual
+invocation syntax varies; consult the harness documentation or its skill picker.
+
+### Aider and non-native harnesses
+
+Aider does not currently provide a native Agent Skills discovery interface.
+Installing a `SKILL.md` directory alone would therefore be misleading. Aider can
+consume generated prompt context through `--read`, and community bridges exist,
+but this repository does not install or depend on them. AiderDesk is a separate
+project with its own skills directory and should not be treated as Aider.
+
+## Validation and upstream audits
+
+Install the development-only YAML dependency, then run the portable validator:
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+python3 scripts/validate_skills.py skills
+```
+
+The validator enforces the required [Agent Skills specification](https://agentskills.io/specification) fields, types, length limits,
+naming rules, and directory-name match. Vendor extensions are rejected in
+portable mode. Documented extensions have isolated profiles in
+`config/frontmatter-compatibility.yml` and fixtures under
+`tests/fixtures/harness-frontmatter/`.
+
+Check that every installer alias has an official documentation source without
+using the network:
+
+```bash
+python3 scripts/audit_harness_docs.py --check-config-only
+```
+
+Run the complete upstream discovery-path audit with:
+
+```bash
+python3 scripts/audit_harness_docs.py
+```
+
+The audit sources live in `config/harness-docs.tsv`. The scheduled GitHub
+Actions workflow runs every Monday at 16:17 UTC and can also be started through
+`workflow_dispatch`. A missing path, unreachable page, duplicate alias, or
+undocumented alias fails with product-specific diagnostics.
 
 ## Repository design
 
 Keep each skill under `skills/<skill-name>/` as its single source of truth.
 Skill-specific documentation belongs beside that skill; shared installation
-and repository guidance belongs in this README. Add harness-specific packaging
-logic under `installers/` instead of maintaining duplicate skill copies.
+and repository guidance belongs in this README. Add or regroup harnesses in
+`installers/harnesses.tsv` instead of duplicating dispatch logic or skill copies.

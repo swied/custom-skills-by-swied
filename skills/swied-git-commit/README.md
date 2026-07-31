@@ -30,8 +30,7 @@ From the repository root, install the skill for every supported harness:
 ./installers/install.sh all swied-git-commit
 ```
 
-Install it for a single harness by replacing `all` with `codex`, `claude`,
-`pi`, or `agy`. On Windows PowerShell:
+On Windows PowerShell:
 
 ```powershell
 .\installers\install.ps1 -Harness all -Skill swied-git-commit

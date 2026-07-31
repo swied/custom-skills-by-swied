@@ -67,4 +67,27 @@ assert_file "$agy_destination/.portable-agent-skill-install"
 HOME="$test_home" "$installer" uninstall agy "$skill"
 assert_missing "$agy_destination"
 
+list_output="$($installer list)"
+for harness in opencode goose github-copilot kilo openhands cursor gemini kimi; do
+  [[ "$list_output" == *"$harness"* ]] || fail "list omitted harness: $harness"
+done
+
+all_home="$test_root/all-home"
+mkdir -p "$all_home"
+HOME="$all_home" "$installer" all "$skill"
+for destination in \
+  "$all_home/.agents/skills/$skill" \
+  "$all_home/.claude/skills/$skill" \
+  "$all_home/.gemini/config/skills/$skill" \
+  "$all_home/.config/agents/skills/$skill" \
+  "$all_home/.qwen/skills/$skill" \
+  "$all_home/.kilo/skills/$skill" \
+  "$all_home/.kiro/skills/$skill" \
+  "$all_home/.factory/skills/$skill"; do
+  assert_file "$destination/SKILL.md"
+done
+
+HOME="$all_home" "$installer" uninstall all "$skill"
+assert_missing "$all_home/.agents/skills/$skill"
+
 echo "Installer lifecycle tests passed."

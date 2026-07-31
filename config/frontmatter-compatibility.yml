@@ -1,0 +1,37 @@
+profiles:
+  claude-code:
+    harnesses: [claude-code]
+    field-types:
+      argument-hint: [string]
+      user-invocable: [boolean]
+      disable-model-invocation: [boolean]
+  github-copilot:
+    harnesses: [github-copilot]
+    field-types:
+      argument-hint: [string]
+      user-invocable: [boolean]
+      disable-model-invocation: [boolean]
+      allowed-tools: [string, string-list]
+  factory-droid:
+    harnesses: [factory-droid]
+    field-types:
+      user-invocable: [boolean]
+      disable-model-invocation: [boolean]
+  qwen-code:
+    harnesses: [qwen-code]
+    field-types:
+      priority: [number]
+      paths: [string-list]
+      user-invocable: [boolean]
+      disable-model-invocation: [boolean]
+  kimi-code:
+    harnesses: [kimi-code]
+    field-types:
+      type: [string]
+      whenToUse: [string]
+      disableModelInvocation: [boolean]
+      arguments: [string-list]
+  openhands:
+    harnesses: [openhands]
+    field-types:
+      triggers: [string-list]

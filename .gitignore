@@ -64,3 +64,4 @@ Thumbs.db
 # Generic local scratch files
 *.bak
 *.tmp
+.aider*

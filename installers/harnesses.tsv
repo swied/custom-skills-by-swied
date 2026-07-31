@@ -1,0 +1,9 @@
+group	path	harnesses
+agents	.agents/skills	codex,pi,opencode,goose,copilot,github-copilot,openhands,cursor,cursor-cli,gemini,gemini-cli,kimi,kimi-code
+claude	.claude/skills	claude,claude-code
+antigravity	.gemini/config/skills	agy,antigravity
+amp	.config/agents/skills	amp
+qwen	.qwen/skills	qwen,qwen-code
+kilo	.kilo/skills	kilo,kilo-cli
+kiro	.kiro/skills	kiro,kiro-cli
+factory	.factory/skills	droid,factory,factory-droid

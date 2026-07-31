@@ -1,0 +1,17 @@
+product	group	aliases	documentation_url
+Codex	agents	codex	https://learn.chatgpt.com/docs/build-skills.md
+Pi	agents	pi	https://pi.dev/docs/latest/skills
+OpenCode	agents	opencode	https://opencode.ai/docs/skills/
+Goose	agents	goose	https://goose-docs.ai/docs/guides/context-engineering/using-skills/
+GitHub Copilot CLI	agents	copilot,github-copilot	https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+Kilo CLI	kilo	kilo,kilo-cli	https://kilo.ai/docs/customize/skills
+OpenHands	agents	openhands	https://docs.openhands.dev/overview/skills
+Cursor CLI	agents	cursor,cursor-cli	https://cursor.com/docs/skills
+Gemini CLI	agents	gemini,gemini-cli	https://geminicli.com/docs/cli/using-agent-skills/
+Kimi Code	agents	kimi,kimi-code	https://www.kimi.com/code/docs/en/kimi-code-cli/customization/skills.html
+Claude Code	claude	claude,claude-code	https://code.claude.com/docs/en/skills
+Antigravity	antigravity	agy,antigravity	https://antigravity.google/docs/skills?app=antigravity-ide
+Amp	amp	amp	https://ampcode.com/news/agent-skills
+Qwen Code	qwen	qwen,qwen-code	https://qwenlm.github.io/qwen-code-docs/en/users/features/skills/
+Kiro CLI	kiro	kiro,kiro-cli	https://kiro.dev/docs/cli/skills/
+Factory Droid	factory	droid,factory,factory-droid	https://docs.factory.ai/harness/skills

@@ -1,7 +1,6 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("codex", "claude", "claude-code", "pi", "agy", "antigravity", "all")]
     [string]$Harness,
 
     [Parameter(Mandatory = $true)]
@@ -24,6 +23,7 @@ if ($Uninstall -and $UseSymlink) {
 $Action = if ($Uninstall) { "uninstall" } elseif ($Update) { "update" } else { "install" }
 $RepositoryRoot = Split-Path -Parent $PSScriptRoot
 $Source = Join-Path $RepositoryRoot "skills\$Skill"
+$HarnessConfig = Join-Path $PSScriptRoot "harnesses.tsv"
 $MarkerName = ".portable-agent-skill-install"
 $MarkerValue = "custom-skills-by-swied:$Skill"
 
@@ -180,25 +180,17 @@ function Manage-Skill {
     }
 }
 
-function Manage-CodexOrPi {
-    Manage-Skill (Join-Path $HOME ".agents\skills")
+$HarnessRows = Import-Csv -Delimiter "`t" -Path $HarnessConfig
+$MatchingRows = @($HarnessRows | Where-Object {
+    $Aliases = $_.harnesses -split ","
+    $Harness -eq "all" -or $Harness -eq $_.group -or $Harness -in $Aliases
+})
+
+if ($MatchingRows.Count -eq 0) {
+    throw "Unknown harness or group: $Harness. Run installers/install.sh list to see supported values."
 }
 
-function Manage-Claude {
-    Manage-Skill (Join-Path $HOME ".claude\skills")
-}
-
-function Manage-Agy {
-    Manage-Skill (Join-Path $HOME ".gemini\config\skills")
-}
-
-switch ($Harness) {
-    { $_ -in @("codex", "pi") } { Manage-CodexOrPi; break }
-    { $_ -in @("claude", "claude-code") } { Manage-Claude; break }
-    { $_ -in @("agy", "antigravity") } { Manage-Agy; break }
-    "all" {
-        Manage-CodexOrPi
-        Manage-Claude
-        Manage-Agy
-    }
+foreach ($Row in $MatchingRows) {
+    $RelativePath = $Row.path -replace "/", [IO.Path]::DirectorySeparatorChar
+    Manage-Skill (Join-Path $HOME $RelativePath)
 }

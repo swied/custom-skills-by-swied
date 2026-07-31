@@ -4,14 +4,35 @@ set -euo pipefail
 usage() {
   cat >&2 <<'USAGE'
 Usage:
-  install.sh [install] [--symlink] {codex|claude|pi|agy|all} SKILL_NAME
-  install.sh update [--symlink] {codex|claude|pi|agy|all} SKILL_NAME
-  install.sh uninstall {codex|claude|pi|agy|all} SKILL_NAME
+  install.sh [install] [--symlink] {HARNESS|GROUP|all} SKILL_NAME
+  install.sh update [--symlink] {HARNESS|GROUP|all} SKILL_NAME
+  install.sh uninstall {HARNESS|GROUP|all} SKILL_NAME
+  install.sh list
 USAGE
 }
 
 action="install"
 use_symlink=false
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/.." && pwd)"
+harness_config="$script_dir/harnesses.tsv"
+
+list_harnesses() {
+  echo "GROUP          DISCOVERY LOCATION                  HARNESS ARGUMENTS"
+  tail -n +2 "$harness_config" | while IFS=$'\t' read -r group relative_path aliases; do
+    printf '%-14s %-35s %s\n' "$group" "~/$relative_path" "$aliases"
+  done
+}
+
+if [ "${1:-}" = "list" ]; then
+  if [ "$#" -ne 1 ]; then
+    usage
+    exit 2
+  fi
+  list_harnesses
+  exit 0
+fi
 
 if [ "$#" -gt 0 ]; then
   case "$1" in
@@ -39,8 +60,6 @@ fi
 
 harness="$1"
 skill_name="$2"
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
 source_dir="$repo_root/skills/$skill_name"
 marker_name=".portable-agent-skill-install"
 marker_value="custom-skills-by-swied:$skill_name"
@@ -154,35 +173,37 @@ manage_at() {
   esac
 }
 
-manage_codex_or_pi() {
-  manage_at "$HOME/.agents/skills"
-}
+manage_harness() {
+  local requested_harness="$1"
+  local matched=false
+  local group
+  local relative_path
+  local aliases
+  local alias
+  local -a alias_list
 
-manage_claude() {
-  manage_at "$HOME/.claude/skills"
-}
+  while IFS=$'\t' read -r group relative_path aliases; do
+    if [ "$requested_harness" = "all" ] || [ "$requested_harness" = "$group" ]; then
+      manage_at "$HOME/$relative_path"
+      matched=true
+      continue
+    fi
 
-manage_agy() {
-  manage_at "$HOME/.gemini/config/skills"
-}
+    IFS=',' read -ra alias_list <<<"$aliases"
+    for alias in "${alias_list[@]}"; do
+      if [ "$requested_harness" = "$alias" ]; then
+        manage_at "$HOME/$relative_path"
+        matched=true
+        break
+      fi
+    done
+  done < <(tail -n +2 "$harness_config")
 
-case "$harness" in
-  codex|pi)
-    manage_codex_or_pi
-    ;;
-  claude|claude-code)
-    manage_claude
-    ;;
-  agy|antigravity)
-    manage_agy
-    ;;
-  all)
-    manage_codex_or_pi
-    manage_claude
-    manage_agy
-    ;;
-  *)
-    usage
+  if [ "$matched" = false ]; then
+    echo "Unknown harness or group: $requested_harness" >&2
+    echo "Run '$0 list' to see supported values." >&2
     exit 2
-    ;;
-esac
+  fi
+}
+
+manage_harness "$harness"
