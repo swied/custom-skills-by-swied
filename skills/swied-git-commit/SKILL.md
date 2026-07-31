@@ -1,6 +1,6 @@
 ---
-name: git-commit
-description: Stage and commit the current Git working tree, using all changes by default or a narrower scope when requested. Use when the user asks to commit changes, create a commit, write a commit message and commit it, or invokes the git-commit skill. Before staging, detect potentially sensitive files that are not ignored; then validate the patch, follow repository commit conventions, and verify the resulting commit.
+name: swied-git-commit
+description: Stage and commit the current Git working tree, using all changes by default or a narrower scope when requested. Use when the user asks to commit changes, create a commit, write a commit message and commit it, or invokes the swied-git-commit skill. Before staging, detect potentially sensitive files that are not ignored; then validate the patch, follow repository commit conventions, and verify the resulting commit.
 ---
 
 # Git Commit
@@ -76,7 +76,7 @@ remains independent of any agent harness.
      useful metadata is available. Use `BREAKING CHANGE: ...` for breaking
      behavior; `Fixes`, `Closes`, or `Refs` for known issue relationships; and
      repository-defined Git trailers for relevant metadata. For example, a
-     skills repository may use `Affected-Skills: git-commit, markdown-to-pdf`.
+     skills repository may use `Affected-Skills: swied-git-commit, swied-markdown-to-pdf`.
      Never invent an issue, breaking change, contributor, or ceremonial footer
      merely to fill the section.
 9. Create the commit without bypassing hooks. Do not amend, force, disable

@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # Introduction
 
-This document verifies that the `markdown-to-pdf` skill handles ordinary
+This document verifies that the `swied-markdown-to-pdf` skill handles ordinary
 Markdown.
 
 ## Formatting

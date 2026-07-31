@@ -183,7 +183,7 @@ def inspect_pdf(output_file: Path) -> None:
     if pdftoppm is None:
         return
 
-    preview_directory = Path(tempfile.mkdtemp(prefix="markdown-to-pdf-preview-"))
+    preview_directory = Path(tempfile.mkdtemp(prefix="swied-markdown-to-pdf-preview-"))
     representative_pages = [1]
     if page_count is not None and page_count > 1:
         representative_pages.append(page_count)
@@ -295,7 +295,7 @@ def main(arguments: list[str]) -> int:
                 temporary_directory = Path(
                     stack.enter_context(
                         tempfile.TemporaryDirectory(
-                            prefix=".markdown-to-pdf-",
+                            prefix=".swied-markdown-to-pdf-",
                             dir=str(input_file.parent),
                         )
                     )

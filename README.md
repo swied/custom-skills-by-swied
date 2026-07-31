@@ -9,8 +9,8 @@ Claude Code, Pi, and Google Antigravity CLI.
 
 | Skill | Purpose | Documentation |
 | --- | --- | --- |
-| `git-commit` | Safely stage, validate, and commit a Git working tree with repository-aware messages. | [Usage and behavior](skills/git-commit/README.md) |
-| `markdown-to-pdf` | Convert Markdown into polished PDF documents with Pandoc and Typst. | [Prerequisites and usage](skills/markdown-to-pdf/README.md) |
+| `swied-git-commit` | Safely stage, validate, and commit a Git working tree with repository-aware messages. | [Usage and behavior](skills/swied-git-commit/README.md) |
+| `swied-markdown-to-pdf` | Convert Markdown into polished PDF documents with Pandoc and Typst. | [Prerequisites and usage](skills/swied-markdown-to-pdf/README.md) |
 
 Each skill README contains its prerequisites, invocation examples, and
 skill-specific behavior. The sections below cover installation and repository
@@ -30,7 +30,7 @@ On Windows PowerShell:
 .\installers\install.ps1 -Harness all -Skill SKILL_NAME
 ```
 
-Replace `SKILL_NAME` with `git-commit` or `markdown-to-pdf`. The `all` argument
+Replace `SKILL_NAME` with `swied-git-commit` or `swied-markdown-to-pdf`. The `all` argument
 means all supported harnesses; it does not mean all skills.
 
 ### Install every included skill
@@ -38,7 +38,7 @@ means all supported harnesses; it does not mean all skills.
 On macOS or Linux:
 
 ```bash
-for skill in git-commit markdown-to-pdf; do
+for skill in swied-git-commit swied-markdown-to-pdf; do
   ./installers/install.sh all "$skill"
 done
 ```
@@ -46,7 +46,7 @@ done
 On Windows PowerShell:
 
 ```powershell
-"git-commit", "markdown-to-pdf" | ForEach-Object {
+"swied-git-commit", "swied-markdown-to-pdf" | ForEach-Object {
     .\installers\install.ps1 -Harness all -Skill $_
 }
 ```

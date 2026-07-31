@@ -1,6 +1,6 @@
 # Markdown to PDF
 
-`markdown-to-pdf` converts Markdown documents into polished PDFs with a bundled,
+`swied-markdown-to-pdf` converts Markdown documents into polished PDFs with a bundled,
 cross-platform converter built on Pandoc and Typst. It preserves the source
 Markdown, supports Pandoc options, renders Mermaid diagrams when Mermaid CLI is
 available, and can inspect the generated PDF.
@@ -17,13 +17,13 @@ All three must be available on the system `PATH`. Check the environment from
 the repository root:
 
 ```bash
-python3 skills/markdown-to-pdf/scripts/convert.py --check
+python3 skills/swied-markdown-to-pdf/scripts/convert.py --check
 ```
 
 On Windows, use `python` if `python3` is unavailable:
 
 ```powershell
-python skills\markdown-to-pdf\scripts\convert.py --check
+python skills\swied-markdown-to-pdf\scripts\convert.py --check
 ```
 
 ### macOS
@@ -82,13 +82,13 @@ unavailable, use `--no-mermaid` to preserve Mermaid blocks as source code.
 Install for every supported harness:
 
 ```bash
-./installers/install.sh all markdown-to-pdf
+./installers/install.sh all swied-markdown-to-pdf
 ```
 
 On Windows PowerShell:
 
 ```powershell
-.\installers\install.ps1 -Harness all -Skill markdown-to-pdf
+.\installers\install.ps1 -Harness all -Skill swied-markdown-to-pdf
 ```
 
 For single-harness installation, updates, uninstallation, development symlinks,
@@ -97,9 +97,9 @@ and discovery locations, see the [repository installation guide](../../README.md
 ## Invoke
 
 ```text
-Codex:       $markdown-to-pdf Convert report.md to report.pdf.
-Claude Code: /markdown-to-pdf Convert report.md to report.pdf.
-Pi:          /skill:markdown-to-pdf Convert report.md to report.pdf.
+Codex:       $swied-markdown-to-pdf Convert report.md to report.pdf.
+Claude Code: /swied-markdown-to-pdf Convert report.md to report.pdf.
+Pi:          /skill:swied-markdown-to-pdf Convert report.md to report.pdf.
 AGY:         Ask for Markdown-to-PDF conversion or select it with /skills.
 ```
 
@@ -110,7 +110,7 @@ Each harness may also select the skill automatically from its description.
 Convert and inspect a document:
 
 ```bash
-python3 skills/markdown-to-pdf/scripts/convert.py \
+python3 skills/swied-markdown-to-pdf/scripts/convert.py \
   INPUT.md [OUTPUT.pdf] --inspect [PANDOC_OPTIONS...]
 ```
 
@@ -118,21 +118,21 @@ If the output path is omitted, the PDF is created beside the source Markdown.
 Pass Pandoc options after the output filename:
 
 ```bash
-python3 skills/markdown-to-pdf/scripts/convert.py \
+python3 skills/swied-markdown-to-pdf/scripts/convert.py \
   report.md report.pdf --inspect --toc --number-sections
 ```
 
 Preserve Mermaid blocks as source code instead of rendering them:
 
 ```bash
-python3 skills/markdown-to-pdf/scripts/convert.py \
+python3 skills/swied-markdown-to-pdf/scripts/convert.py \
   report.md report.pdf --inspect --no-mermaid
 ```
 
 On macOS and Linux, the Bash wrapper provides the same interface:
 
 ```bash
-skills/markdown-to-pdf/scripts/convert.sh \
+skills/swied-markdown-to-pdf/scripts/convert.sh \
   report.md report.pdf --inspect
 ```
 
@@ -143,7 +143,7 @@ Poppler utilities are available.
 ## Test with the included fixture
 
 ```bash
-python3 skills/markdown-to-pdf/scripts/convert.py \
+python3 skills/swied-markdown-to-pdf/scripts/convert.py \
   tests/fixtures/sample-document.md sample-document.pdf \
   --inspect
 ```

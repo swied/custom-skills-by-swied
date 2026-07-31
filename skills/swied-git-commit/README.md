@@ -1,6 +1,6 @@
 # Git Commit
 
-`git-commit` helps an agent stage and commit the current working tree. A simple
+`swied-git-commit` helps an agent stage and commit the current working tree. A simple
 request commits all current changes, while an explicitly named path or narrower
 scope limits the commit. The skill inspects repository guidance, validates the
 staged patch, follows local commit conventions, and verifies the result.
@@ -27,14 +27,14 @@ staged patch, follows local commit conventions, and verifies the result.
 From the repository root, install the skill for every supported harness:
 
 ```bash
-./installers/install.sh all git-commit
+./installers/install.sh all swied-git-commit
 ```
 
 Install it for a single harness by replacing `all` with `codex`, `claude`,
 `pi`, or `agy`. On Windows PowerShell:
 
 ```powershell
-.\installers\install.ps1 -Harness all -Skill git-commit
+.\installers\install.ps1 -Harness all -Skill swied-git-commit
 ```
 
 For update, uninstall, symlink, and discovery-location details, see the
@@ -45,9 +45,9 @@ For update, uninstall, symlink, and discovery-location details, see the
 Explicit invocation differs by harness:
 
 ```text
-Codex:       $git-commit Commit the changes for the login fix.
-Claude Code: /git-commit Commit the changes for the login fix.
-Pi:          /skill:git-commit Commit the changes for the login fix.
+Codex:       $swied-git-commit Commit the changes for the login fix.
+Claude Code: /swied-git-commit Commit the changes for the login fix.
+Pi:          /skill:swied-git-commit Commit the changes for the login fix.
 AGY:         Ask it to commit the intended changes or select the skill with /skills.
 ```
 
@@ -104,11 +104,11 @@ does not invent metadata merely to fill the footer.
 Examples:
 
 ```text
-docs(git-commit): clarify staged-change handling
+docs(swied-git-commit): clarify staged-change handling
 ```
 
 ```text
-feat(git-commit): add guarded commit workflow
+feat(swied-git-commit): add guarded commit workflow
 
 Add a portable commit skill that stages the intended change set, checks for
 potential secrets, validates the staged patch, and verifies the resulting
@@ -117,7 +117,7 @@ commit.
 Move skill-specific guidance into per-skill READMEs and tighten ignore rules
 for secrets, local tooling, and generated artifacts.
 
-Affected-Skills: git-commit, markdown-to-pdf
+Affected-Skills: swied-git-commit, swied-markdown-to-pdf
 ```
 
 Supported fallback types are `feat`, `fix`, `docs`, `refactor`, `perf`, `test`,

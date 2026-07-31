@@ -50,7 +50,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Markdown-to-PDF interrupted-work artifacts
-.markdown-to-pdf-*/
+.swied-markdown-to-pdf-*/
 
 # Editors and operating systems
 .idea/

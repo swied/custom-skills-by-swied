@@ -15,8 +15,8 @@ from unittest import mock
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CONVERTER_PATH = REPO_ROOT / "skills/markdown-to-pdf/scripts/convert.py"
-SPEC = importlib.util.spec_from_file_location("markdown_to_pdf_convert", CONVERTER_PATH)
+CONVERTER_PATH = REPO_ROOT / "skills/swied-markdown-to-pdf/scripts/convert.py"
+SPEC = importlib.util.spec_from_file_location("swied_markdown_to_pdf_convert", CONVERTER_PATH)
 assert SPEC is not None and SPEC.loader is not None
 CONVERTER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(CONVERTER)
@@ -89,12 +89,12 @@ class MermaidConversionTests(unittest.TestCase):
                         if option.startswith("--resource-path=")
                     )
                     self.assertIn(str(input_file.parent), resource_option)
-                    self.assertIn(".markdown-to-pdf-", resource_option)
+                    self.assertIn(".swied-markdown-to-pdf-", resource_option)
                     transformed_markdown = Path(command[1]).read_text(
                         encoding="utf-8"
                     )
                     self.assertIn(
-                        "![diagram](<.markdown-to-pdf-", transformed_markdown
+                        "![diagram](<.swied-markdown-to-pdf-", transformed_markdown
                     )
                     Path(
                         next(

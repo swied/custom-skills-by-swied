@@ -1,5 +1,5 @@
 ---
-name: markdown-to-pdf
+name: swied-markdown-to-pdf
 description: Convert Markdown or .md files into polished PDF documents using the locally installed Pandoc and Typst command-line programs. Use when the user asks to convert, export, render, typeset, or save Markdown as PDF. Do not use for editing an existing PDF or converting non-Markdown source files.
 ---
 

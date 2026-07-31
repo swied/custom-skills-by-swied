@@ -11,7 +11,7 @@ fi
 test_dir="$(mktemp -d)"
 trap 'rm -rf "$test_dir"' EXIT
 
-python3 "$repo_root/skills/markdown-to-pdf/scripts/convert.py" \
+python3 "$repo_root/skills/swied-markdown-to-pdf/scripts/convert.py" \
   "$repo_root/tests/fixtures/sample-document.md" \
   "$test_dir/sample-document.pdf" \
   --inspect --no-mermaid
