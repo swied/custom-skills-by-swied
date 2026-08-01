@@ -1,5 +1,5 @@
 interface:
-  display_name: "Markdown to PDF"
+  display_name: "swied-markdown-to-pdf"
   short_description: "Create polished PDFs with Pandoc and Typst"
   default_prompt: "Convert this Markdown document into a polished PDF."
 
