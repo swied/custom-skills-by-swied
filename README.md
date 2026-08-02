@@ -26,6 +26,7 @@ small installation layer handles the harness-specific differences.
 | Skill | What it helps with | Learn more |
 | --- | --- | --- |
 | **swied-git-commit** | Reviews, stages, validates, and commits a Git working tree with a repository-aware message. | [Git Commit guide](skills/swied-git-commit/README.md) |
+| **swied-markdown-renderer** | Converts Markdown to rendered Markdown, PDF, DOCX, ODT, RTF, HTML, EPUB, PPTX, LaTeX, or Typst with rendered diagrams and equations. | [Markdown Renderer guide](skills/swied-markdown-renderer/README.md) |
 | **swied-markdown-to-pdf** | Turns Markdown into a polished PDF using Pandoc and Typst. | [Markdown to PDF guide](skills/swied-markdown-to-pdf/README.md) |
 | **swied-resume-consultant** | Runs Dr. Bailey's probing, research-backed career interview and creates a career profile, strategy report, and targeted resume. | [Resume Consultant skill](skills/swied-resume-consultant/SKILL.md) |
 
@@ -98,6 +99,7 @@ Use the harness you actually run. Here are a few macOS and Linux examples:
 
 ~~~bash
 bash installers/install.sh claude swied-git-commit
+bash installers/install.sh codex swied-markdown-renderer
 bash installers/install.sh pi swied-markdown-to-pdf
 bash installers/install.sh opencode swied-git-commit
 bash installers/install.sh factory swied-markdown-to-pdf
@@ -107,6 +109,7 @@ The same examples in Windows PowerShell are:
 
 ~~~powershell
 .\installers\install.ps1 -Harness claude -Skill swied-git-commit
+.\installers\install.ps1 -Harness codex -Skill swied-markdown-renderer
 .\installers\install.ps1 -Harness pi -Skill swied-markdown-to-pdf
 .\installers\install.ps1 -Harness opencode -Skill swied-git-commit
 .\installers\install.ps1 -Harness factory -Skill swied-markdown-to-pdf
@@ -121,6 +124,7 @@ There is one install command per skill. For Codex:
 
 ~~~bash
 bash installers/install.sh codex swied-git-commit
+bash installers/install.sh codex swied-markdown-renderer
 bash installers/install.sh codex swied-markdown-to-pdf
 bash installers/install.sh codex swied-resume-consultant
 ~~~
@@ -129,6 +133,7 @@ On Windows PowerShell:
 
 ~~~powershell
 .\installers\install.ps1 -Harness codex -Skill swied-git-commit
+.\installers\install.ps1 -Harness codex -Skill swied-markdown-renderer
 .\installers\install.ps1 -Harness codex -Skill swied-markdown-to-pdf
 .\installers\install.ps1 -Harness codex -Skill swied-resume-consultant
 ~~~
@@ -140,11 +145,13 @@ discovery location:
 
 ~~~bash
 bash installers/install.sh all swied-git-commit
+bash installers/install.sh all swied-markdown-renderer
 bash installers/install.sh all swied-markdown-to-pdf
 ~~~
 
 ~~~powershell
 .\installers\install.ps1 -Harness all -Skill swied-git-commit
+.\installers\install.ps1 -Harness all -Skill swied-markdown-renderer
 .\installers\install.ps1 -Harness all -Skill swied-markdown-to-pdf
 ~~~
 
@@ -187,6 +194,14 @@ Convert docs/project-plan.md to a polished PDF with a table of contents.
 ~~~
 
 ~~~text
+Render architecture.md as architecture.rendered.md with inline SVG diagrams and equations.
+~~~
+
+~~~text
+Convert handbook.md to handbook.docx and inspect the result.
+~~~
+
+~~~text
 Turn meeting-notes.md into meeting-notes.pdf and inspect the result.
 ~~~
 
@@ -217,10 +232,10 @@ $swied-git-commit Summarize your commit workflow. Do not make any changes.
 For Claude Code, start with **/swied-git-commit**. For Pi, start with
 **/skill:swied-git-commit**.
 
-### Check Markdown-to-PDF requirements
+### Check Markdown rendering requirements
 
-The PDF skill requires Python 3.9 or newer, Pandoc, and Typst. Check all three
-from a terminal:
+Both Markdown rendering skills require Python 3.9 or newer and Pandoc. PDF
+output also requires Typst. Check the core tools from a terminal:
 
 ~~~bash
 python3 --version
@@ -248,6 +263,19 @@ The **--no-mermaid** option makes this test work without the optional Mermaid
 CLI. See the [Markdown to PDF guide](skills/swied-markdown-to-pdf/README.md) for
 dependency installation and Mermaid support.
 
+You can also make a DOCX with the generalized renderer:
+
+~~~bash
+python3 skills/swied-markdown-renderer/scripts/render.py \
+  tests/fixtures/renderer-document.md renderer-test.docx \
+  --inspect --no-diagrams
+~~~
+
+Mermaid CLI and Graphviz are conditional dependencies used only when matching
+diagram fences are rendered. The [Markdown Renderer guide](skills/swied-markdown-renderer/README.md)
+and [detailed user guide](skills/swied-markdown-renderer/USER_GUIDE.md) explain
+format support, math handling, optional tools, and Markdown-to-Markdown output.
+
 ### Run the repository test suite
 
 Contributors and curious users can validate every skill and installer. First,
@@ -264,14 +292,16 @@ python3 scripts/validate_skills.py skills
 python3 scripts/audit_harness_docs.py --check-config-only
 python3 -m unittest discover -s tests -p 'test_*.py'
 bash tests/installers-test.sh
+bash tests/swied-markdown-renderer-test.sh
 bash tests/swied-markdown-to-pdf-test.sh
 ~~~
 
 These commands check the portable skill structure, harness configuration,
-Python behavior, installer lifecycle, and end-to-end PDF conversion. The PDF
-test skips cleanly if Pandoc or Typst is unavailable. Tests use temporary
-folders and do not change your real harness installations. On Windows, run the
-two Bash test scripts from Git Bash or WSL.
+Python behavior, installer lifecycle, and end-to-end document conversion. The
+integration tests skip cleanly when their required external tools are
+unavailable. Tests use temporary folders and do not change your real harness
+installations. On Windows, run the three Bash test scripts from Git Bash or
+WSL.
 
 ## Update
 
@@ -299,6 +329,12 @@ Update the PDF skill in the same way:
 
 ~~~bash
 bash installers/install.sh update codex swied-markdown-to-pdf
+~~~
+
+Update the generalized Markdown renderer with:
+
+~~~bash
+bash installers/install.sh update codex swied-markdown-renderer
 ~~~
 
 Use the same harness or group target you originally installed. If you installed
@@ -432,6 +468,14 @@ The policy change ends when you close that PowerShell window.
 Run its **--check** command, then install the missing requirement. The
 [Markdown to PDF guide](skills/swied-markdown-to-pdf/README.md#install-the-required-tools)
 has instructions for macOS, Windows, and Linux.
+
+### The Markdown renderer reports a missing dependency
+
+The renderer checks only the tools required by the requested document and its
+content. See the [requirements](skills/swied-markdown-renderer/USER_GUIDE.md#requirements)
+and [troubleshooting guide](skills/swied-markdown-renderer/USER_GUIDE.md#troubleshooting)
+for installation help and options that preserve unsupported rich blocks as
+source.
 
 ## Supported harnesses
 

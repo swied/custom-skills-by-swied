@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swied Markdown Renderer"
+  short_description: "Render Markdown into polished document formats"
+  default_prompt: "Use $swied-markdown-renderer to convert this Markdown file into the requested document format and inspect the result."

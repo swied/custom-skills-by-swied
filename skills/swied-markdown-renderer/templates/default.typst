@@ -1,0 +1,81 @@
+$definitions.typst()$
+
+#set page(
+  paper: "$if(papersize)$$papersize$$else$us-letter$endif$",
+  margin: $if(margin)$($for(margin/pairs)$$margin.key$: $margin.value$,$endfor$)$else$(x: 1in, y: 1in)$endif$,
+  numbering: "1",
+)
+#set par(justify: true)
+$if(mainfont)$
+#set text(font: "$mainfont$")
+$endif$
+$if(fontsize)$
+#set text(size: $fontsize$)
+$endif$
+$if(lang)$
+#set text(lang: "$lang$")
+$endif$
+$if(region)$
+#set text(region: "$region$")
+$endif$
+$if(section-numbering)$
+#set heading(numbering: "$section-numbering$")
+$endif$
+
+$for(header-includes)$
+$header-includes$
+
+$endfor$
+$if(title)$
+#align(center)[
+  #block(inset: 2em)[
+    #text(weight: "bold", size: 1.5em)[$title$]
+  ]
+]
+$endif$
+$if(author)$
+#align(center)[
+$for(author)$
+$if(author.name)$
+  $author.name$
+$else$
+  $author$
+$endif$
+$sep$ \
+$endfor$
+]
+$endif$
+$if(date)$
+#align(center)[#block(inset: 1em)[$date$]]
+$endif$
+$if(abstract)$
+#block(inset: 2em)[
+  #text(weight: "semibold")[Abstract] $abstract$
+]
+$endif$
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+$if(toc)$
+#outline(
+  title: auto,
+  depth: none,
+);
+$endif$
+
+$body$
+
+$if(citations)$
+$if(bibliographystyle)$
+#set bibliography(style: "$bibliographystyle$")
+$endif$
+$for(bibliography)$
+#bibliography("$bibliography$")
+$endfor$
+$endif$
+$for(include-after)$
+
+$include-after$
+$endfor$
